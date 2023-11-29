@@ -1,0 +1,21 @@
+# Run docker compose
+# docker-compose up -d
+
+# Run docker compose and build image again with cache
+# docker-compose up -d --build
+
+# Build image again without cache
+# docker-compose build --no-cache
+
+version: "3"
+
+services:
+  default-service-1:
+    image: "ubuntu-nodejs-18-apt-get:local"
+    build: # "context" and "dockerfile" fields have to be under "build"
+      context: ./
+      dockerfile: ./Dockerfile
+    hostname: ubuntu-nodejs-18-apt-get
+    container_name: ubuntu-nodejs-18-apt-get
+    volumes:
+      - ./:/home/workspace
