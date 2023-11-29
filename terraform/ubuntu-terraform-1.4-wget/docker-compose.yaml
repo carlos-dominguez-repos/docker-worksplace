@@ -1,0 +1,29 @@
+# Run docker compose
+# docker-compose up -d
+
+# Run docker compose and build image again with cache
+# docker-compose up -d --build
+
+# Build image again without cache
+# docker-compose build --no-cache
+
+version: "3"
+
+services:
+  default-service-1:
+    image: "ubuntu-terraform-1.4-wget:local"
+    build: # "context" and "dockerfile" fields have to be under "build"
+      context: ./
+      dockerfile: ./Dockerfile
+    hostname: ubuntu-terraform-1.4-wget
+    container_name: ubuntu-terraform-1.4-wget
+    environment:
+      AZURE_SECRET: 'TEST_VALUE_AZURE_SECRET'
+      AZURE_TENANT_ID: 'TEST_VALUE_AZURE_TENANT_ID'
+    volumes:
+      # Adding repo inside the container
+      - ./:/home/workspace
+
+      # Give local github access with ssh
+      - /Users/cdominguez/.ssh/id_ed25519:/root/.ssh/id_ed25519
+      - /Users/cdominguez/.ssh/id_ed25519.pub:/root/.ssh/id_ed25519.pub
